@@ -1,4 +1,4 @@
-name: SonarCloud Analysis
+name: Java CI with SonarCloud
 
 on:
   pull_request:
@@ -7,19 +7,25 @@ on:
 
 jobs:
   build:
-    name: Build & SonarCloud Analysis
-    runs-on: ubuntu-latest
+    name: Build, Test & SonarCloud Analysis
+    runs-on: ubuntu-24.04
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for SonarCloud analysis
 
+      # Step 2: Set up Java 17
       - name: Set Up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: 'maven'
 
+      # Step 3: Cache Maven Dependencies
       - name: Cache Maven Dependencies
         uses: actions/cache@v3
         with:
@@ -27,11 +33,21 @@ jobs:
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: maven-${{ runner.os }}
 
-      - name: Build & Run Tests with JaCoCo
+      # Step 4: Build and Run Tests with JaCoCo for Code Coverage
+      - name: Build and Run Tests
         run: mvn clean verify
+        working-directory: ./sonar-java-project  # Change this to your project folder
 
-      #- name: Run SonarCloud Analysis
-      #  run: mvn sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # # Step 5: Run SonarCloud Analysis
+      # - name: Run SonarCloud Analysis
+      #   run: mvn sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   working-directory: ./java-app-sonar-qube  # Change this to your project folder
 
+      # # Step 6 (Optional): Upload JaCoCo Coverage Report
+      # - name: Upload JaCoCo Coverage Report
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: jacoco-report
+      #     path: java-app-sonar-qube/target/site/jacoco/index.html  # Change if needed
