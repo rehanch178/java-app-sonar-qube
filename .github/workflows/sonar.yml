@@ -40,10 +40,21 @@ jobs:
 
       # Step 5: Run SonarCloud Analysis
       - name: Run SonarCloud Analysis
-        run: mvn sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }} -Dproject.settings=sonar-project.properties
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=rehanch178 \
+            -Dsonar.projectKey=java-app-sonar-qube \
+            -Dsonar.projectName=java-app-sonar-qube \
+            -Dsonar.projectVersion=1.0 \
+            -Dsonar.sources=sonar-java-project \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: ./sonar-java-project  # Change this to your project folder
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #working-directory: ./sonar-java-project  # Change this to your project folder
 
       # # Step 6 (Optional): Upload JaCoCo Coverage Report
       # - name: Upload JaCoCo Coverage Report
