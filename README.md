@@ -1,0 +1,1 @@
+# java-app-sonar-qube
