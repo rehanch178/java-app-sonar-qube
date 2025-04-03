@@ -42,16 +42,16 @@ jobs:
       - name: Run SonarCloud Analysis
         run: |
           mvn sonar:sonar \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=rehanch178 \
-            -Dsonar.projectKey=rehanch178_java-app-sonar-qube \
-            -Dsonar.branch.name=${{ github.head_ref }} \
-            -Dsonar.projectVersion=1.0 \
-            -Dsonar.sources=src/main/java \  # ✅ Fixed source path
-            -Dsonar.tests=src/test/java \    # ✅ Include test files for analysis
-            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-            -Dsonar.exclusions=src/test/java/** \  # ✅ Exclude test files from coverage
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.organization=rehanch178 \
+          -Dsonar.projectKey=rehanch178_java-app-sonar-qube \
+          -Dsonar.branch.name="${{ github.head_ref }}" \
+          -Dsonar.projectVersion=1.0 \
+          -Dsonar.sources=src/main/java \
+          -Dsonar.tests=src/test/java \
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+          -Dsonar.exclusions="src/test/java/**" \
+          -Dsonar.token="${{ secrets.SONAR_TOKEN }}"
         working-directory: ./sonar-java-project  # Run Sonar in correct directory
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
