@@ -45,7 +45,7 @@ jobs:
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.organization=rehanch178 \
           -Dsonar.projectKey=rehanch178_java-app-sonar-qube \
-          -Dsonar.branch.name="${{ github.head_ref }}" \
+          -Dsonar.branch.name=main \
           -Dsonar.projectVersion=1.0 \
           -Dsonar.sources=src/main/java \
           -Dsonar.tests=src/test/java \
