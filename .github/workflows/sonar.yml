@@ -57,3 +57,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          
+      # Step 6: Wait for SonarCloud Quality Gate Result
+      - name: Check SonarCloud Quality Gate
+        run: |
+          SONAR_STATUS=$(curl -s -u "${{ secrets.SONAR_TOKEN }}:" "https://sonarcloud.io/api/qualitygates/project_status?projectKey=rehanch178_java-app-sonar-qube" | jq -r .projectStatus.status)
+          echo "SonarCloud Quality Gate Status: $SONAR_STATUS"
+          echo "SonarCloud Report: https://sonarcloud.io/project/overview?id=rehanch178_java-app-sonar-qube"
+          if [[ "$SONAR_STATUS" != "OK" ]]; then
+            echo "❌ Quality gate failed! Failing the job."
+            exit 1
+          fi
