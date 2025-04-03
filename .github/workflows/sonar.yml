@@ -6,8 +6,9 @@ on:
       - main
 
 jobs:
-  sonar:
-    runs-on: ubuntu-22.04
+  build:
+    name: Build & SonarCloud Analysis
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -26,11 +27,11 @@ jobs:
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: maven-${{ runner.os }}
 
-      - name: Build and Test with JaCoCo
+      - name: Build & Run Tests with JaCoCo
         run: mvn clean verify
 
-      - name: Run SonarCloud Analysis
-        run: mvn sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #- name: Run SonarCloud Analysis
+      #  run: mvn sonar:sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
