@@ -44,8 +44,8 @@ jobs:
           mvn sonar:sonar \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.organization=rehanch178 \
-            -Dsonar.projectKey=java-app-sonar-qube \
-            -Dsonar.projectName=java-app-sonar-qube \
+            -Dsonar.projectKey=rehanch178_java-app-sonar-qube \
+            #-Dsonar.projectName=java-app-sonar-qube \
             -Dsonar.projectVersion=1.0 \
             -Dsonar.sources=src/main/java \  # ✅ Fixed source path
             -Dsonar.tests=src/test/java \    # ✅ Include test files for analysis
